@@ -1,9 +1,9 @@
 // Roteador por hash (funciona no GitHub Pages sem configurar servidor).
 //   #/                       caderno
 //   #/receita/<id>           receita
-//   #/receita/<id>/cozinhar  Modo Mão na Massa
+//   #/receita/<id>/cozinhar  Modo Cozinhar
 //   #/importar               importar de um link
-//   #/receber                receber (colar, arquivo, QR)
+//   #/receber                processa o que chegou (arquivo do "+", link, Compartilhar); ?qr=1 abre a câmera
 //   #/ajustes                ajustes ("Mais")
 //   #/compras                lista de compras geral (?aba=cardapio → cardápio da semana)
 //   #/editar/<id>            editar receita (original fica guardado)

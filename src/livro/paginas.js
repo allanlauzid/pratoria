@@ -1,4 +1,4 @@
-// Monta as páginas do livro (Modo Mão na Massa) a partir dos dados da receita.
+// Monta as páginas do livro (Modo Cozinhar) a partir dos dados da receita.
 // As páginas de PREPARO são divididas por medição real (ver Livro.svelte):
 // nunca têm rolagem; se não couber, vira outra folha.
 

@@ -1,5 +1,5 @@
 <script>
-  // Modo Mão na Massa: livro em tela cheia.
+  // Modo Cozinhar: livro em tela cheia.
   // • Celular: uma página por vez. Desktop largo: duas páginas lado a lado.
   // • Preparo paginado por medição real: sem rolagem; se não couber, nova folha.
   // • Virada física (motor.js), toque nas laterais, setas, Esc.
@@ -17,8 +17,8 @@
   import { urlDoSite } from '../lib/urlSite.js';
   import { trechosComTempo, cronometrosDosItens } from '../core/tempos.js';
   import Cronometros from '../componentes/Cronometros.svelte';
+  import CirculoCronometro from '../componentes/CirculoCronometro.svelte';
   import Icone from '../componentes/Icone.svelte';
-  import { abrirCronometro } from '../lib/cronometros.svelte.js';
   import Folha from '../componentes/Folha.svelte';
   import GuiaMaoNaMassa from './GuiaMaoNaMassa.svelte';
   import { voz, falar, pausar as pausarVoz, retomar as retomarVoz, parar as pararVoz, mudarTaxa } from '../lib/voz.svelte.js';
@@ -274,22 +274,22 @@
   });
 </script>
 
-<dialog class="livro" tabindex="-1" class:duplo class:com-prateleira={comPrateleira} bind:this={dialogo} aria-label={`Modo Mão na Massa: ${r.titulo}`}
+<dialog class="livro" tabindex="-1" class:duplo class:com-prateleira={comPrateleira} bind:this={dialogo} aria-label={`Modo Cozinhar: ${r.titulo}`}
   oncancel={(e) => { e.preventDefault(); sair(); }} onkeydown={teclado}>
   <div class="livro-barra">
-    <button class="botao-icone" onclick={sair} aria-label="Sair do Modo Mão na Massa">✕</button>
+    <button class="botao-icone" onclick={sair} aria-label="Sair do Modo Cozinhar">✕</button>
     <div class="livro-progresso" aria-live="polite">
       <span class="visualmente-oculto">{paginaAtual?.rotulo}</span>
       <span aria-hidden="true">{progresso}</span>
     </div>
     <div class="livro-dir">
       {#if voz.suportado}<button class="botao-icone" class:ativo={painelVoz || voz.falando} onclick={() => { painelVoz = !painelVoz; menu = false; }} aria-label="Ouvir a receita" aria-expanded={painelVoz}><Icone nome="som" /></button>{/if}
-      <button class="botao-icone" onclick={abrirCronometro} aria-label="Cronômetro"><Icone nome="cronometro" /></button>
       <button class="botao-icone" onclick={() => { menu = !menu; painelVoz = false; }} aria-label="Opções" aria-expanded={menu} aria-controls="livro-menu">⋮</button>
     </div>
   </div>
 
   <Cronometros noLivro ocultar={chavesVisiveis} />
+  <div class="livro-crono" data-sem-virar><CirculoCronometro tamanho={50} /></div>
   {#if painelVoz}
     <div class="livro-voz" role="region" aria-label="Ouvir a receita">
       {#if voz.falando && voz.origem === 'livro'}
@@ -345,5 +345,5 @@
       <button role="menuitem" onclick={sair}>Sair</button>
     </div>
   {/if}
-  <Folha bind:aberta={guiaAberto} titulo="Como usar o Mão na Massa">{#if guiaAberto}<GuiaMaoNaMassa />{/if}</Folha>
+  <Folha bind:aberta={guiaAberto} titulo="Como usar o Modo Cozinhar">{#if guiaAberto}<GuiaMaoNaMassa />{/if}</Folha>
 </dialog>

@@ -1,5 +1,6 @@
 <script>
-  // Receber: arquivo .pratoria (ou .zip/.md/.txt), link, QR, menu Compartilhar do Android.
+  // Receber (sem botão próprio): processa o que chega — arquivo escolhido no "+", link #r1…,
+  // QR code (#/receber?qr=1, abre direto a câmera), menu Compartilhar do Android e "Abrir com".
   // Imagens que chegam SEMPRE passam por revisão (Usar / Gerar de novo / Sem imagem).
   import Topo from '../componentes/Topo.svelte';
   import Icone from '../componentes/Icone.svelte';
@@ -10,7 +11,7 @@
   import { interpretarReceita } from '../core/formato/parser.js';
   import { montarPromptImagem, montarPromptIlustracoes, gradeDaCartela } from '../core/import/prompts.js';
   import { recortarCartela } from '../lib/cartela.js';
-  import { rota, ir } from '../lib/rota.svelte.js';
+  import { rota, ir, voltar } from '../lib/rota.svelte.js';
   import { salvarNoCaderno, app, salvarNome, salvarIlustracoesDaReceita, substituirReceita, ehBackupCaderno, restaurarCaderno } from '../lib/caderno.svelte.js';
   import PerguntaDuplicada from '../componentes/PerguntaDuplicada.svelte';
   import { encontrarDuplicada } from '../core/duplicadas.js';
@@ -30,8 +31,10 @@
   const quando = (iso) => { const d = new Date(iso); return Number.isNaN(d.getTime()) ? iso : d.toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' }); };
 
   let backup = $state(null);        // arquivo de backup do caderno inteiro
+  let esperando = $state(true);     // nada chegou ainda (o arquivo pode levar um instante)
+  setTimeout(() => (esperando = false), 1500);
   async function processar(fonte) {
-    erro = ''; backup = null;
+    erro = ''; backup = null; esperando = false;
     try {
       // link de um site (não do Pratoria) → importar com IA
       if (typeof fonte === 'string') {
@@ -103,10 +106,9 @@
   const promptPara = (n) => (n === 'prato' ? montarPromptImagem(resultado.receita) : resultado.receita.ilustracoes?.length ? montarPromptIlustracoes(resultado.receita) : '');
 </script>
 
-<Topo titulo="Receber receita" />
+<Topo voltarPara="/" titulo={lendoQR ? 'Ler QR code' : 'Receita recebida'} />
 
 <div class="tela">
-  <header><p class="rotulo">Receber</p><h1>Recebeu uma receita?</h1></header>
 
   {#if backup}
     <section class="folha-papel bloco">
@@ -152,33 +154,20 @@
     <section class="folha-papel bloco">
       {#if !app.perfil.nome}<label class="campo"><span>Seu nome (fica no registro da sua cópia)</span><input class="entrada" bind:value={nome} /></label>{/if}
       <button class="botao primario bloco" disabled={!resultado.valido || salvando} onclick={() => salvar()}>{salvando ? 'Salvando…' : 'Salvar no meu caderno'}</button>
-      <button class="botao bloco sutil" onclick={() => (recebido = null)}>Descartar</button>
+      <button class="botao bloco sutil" onclick={() => { recebido = null; voltar("/"); }}>Descartar</button>
     </section>
   {:else if lendoQR}
     <section class="folha-papel bloco">
-      <h2>Ler QR code</h2>
-      <QrLer aoCompletar={(t) => { lendoQR = false; processar(t); }} aoFechar={() => (lendoQR = false)} />
+      <h2><Icone nome="qr" /> Ler QR code</h2>
+      <QrLer aoCompletar={(t) => { lendoQR = false; processar(t); }} aoFechar={() => { lendoQR = false; voltar('/'); }} />
     </section>
-  {:else}
+  {:else if esperando}
+    <p class="meta abrindo" aria-busy="true">Abrindo…</p>
+  {:else if !erro}
     <section class="folha-papel bloco">
-      <h2><Icone nome="arquivo" /> Abrir arquivo</h2>
-      <p class="meta">O arquivo <code>.pratoria</code> recebido por WhatsApp, e-mail, AirDrop, Quick Share, Bluetooth ou Drive.</p>
-      <label class="botao primario bloco">Escolher arquivo
-        <input class="visualmente-oculto" type="file" accept=".pratoria,.zip,.md,.txt,application/zip,text/markdown,text/plain"
-          onchange={(e) => e.currentTarget.files?.[0] && processar(e.currentTarget.files[0])} />
-      </label>
+      <p class="meta">Nada para abrir aqui. Para receber uma receita, toque em <strong>+</strong> e escolha <strong>Abrir arquivo .pratoria</strong> ou <strong>Ler QR code</strong>. Links do Pratoria abrem sozinhos.</p>
+      <a class="botao leve bloco" href="#/">Voltar ao caderno</a>
     </section>
-    <div class="duas">
-      <section class="folha-papel bloco">
-        <h2><Icone nome="qr" /> Ler QR code</h2>
-        <p class="meta">Cara a cara, sem internet.</p>
-        <button class="botao leve bloco" onclick={() => (lendoQR = true)}><Icone nome="camera" /> Abrir câmera</button>
-      </section>
-      <section class="folha-papel bloco">
-        <h2><Icone nome="link" /> Recebeu um link?</h2>
-        <p class="meta">Basta tocar nele: a receita abre direto aqui.</p>
-      </section>
-    </div>
   {/if}
   {#if erro}<p class="erro" role="alert">{erro}</p>{/if}
 </div>
@@ -187,12 +176,10 @@
 
 <style>
   .tela { width: min(100% - 2rem, 44rem); margin-inline: auto; padding-top: 1rem; display: grid; gap: 1rem; }
-  h1 { font-size: var(--t-h2); }
   h2 { font-size: 1.2rem; display: flex; align-items: center; gap: .5rem; }
   .bloco { padding: 1.1rem; display: grid; gap: .75rem; }
   .bloco p { margin: 0; }
-  .duas { display: grid; gap: 1rem; }
-  @media (min-width: 40rem) { .duas { grid-template-columns: 1fr 1fr; } }
+  .abrindo { text-align: center; padding: 2rem 0; }
   .avisos { margin: 0; padding: .6rem .6rem .6rem 1.6rem; border-radius: var(--raio-m); background: color-mix(in srgb, var(--mostarda) 12%, var(--papel-folha)); font-size: .92rem; }
   .imagem { display: grid; gap: .5rem; padding: .75rem 0; border-top: 1px dashed var(--linha); }
   .imagem:first-of-type { border-top: 0; padding-top: 0; }
@@ -203,6 +190,5 @@
   .seg button[aria-checked='true'] { background: var(--papel-folha); color: var(--tinta); box-shadow: var(--sombra-baixa); }
   .sutil { border-color: transparent; color: var(--tinta-suave); }
   .erro { color: var(--erro); }
-  label.botao { cursor: pointer; }
   @media (min-width: 64rem) { .tela { padding-top: 2.5rem; } }
 </style>

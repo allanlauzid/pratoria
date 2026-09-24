@@ -25,6 +25,13 @@
   --mostarda:       #C08A2E;
   --tomate:         #B8432E;
 
+  /* cronômetro: vermelho = contando, amarelo = pausado/aviso, laranja = falta 1 min; fundos sempre translúcidos */
+  --cron-vermelho:  #D63A2A;
+  --cron-amarelo:   #E5A515;
+  --cron-laranja:   #E2701F;
+  --cron-verde:     #6F9A3B;
+  --cron-cinza:     #8A7E70;
+
   /* ---- estados ---- */
   --foco:           #C08A2E;
   --erro:           #9E2F1F;
@@ -39,7 +46,7 @@
   --titulo-variacao: "SOFT" 80, "WONK" 1, "opsz" 72;
 
   --t-corpo:   1.0625rem;  /* 17px: mínimo para ingredientes/instruções */
-  --t-livro:   clamp(1.15rem, 1rem + 1.2vw, 1.35rem);  /* texto do Modo Mão na Massa */
+  --t-livro:   clamp(1.15rem, 1rem + 1.2vw, 1.35rem);  /* texto do Modo Cozinhar */
   --t-meta:    0.875rem;
   --t-credito: 0.75rem;
   --t-h1:      clamp(2rem, 1.4rem + 3vw, 3.5rem);

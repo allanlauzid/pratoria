@@ -1,5 +1,5 @@
 <script>
-  // Instruções completas do Modo Mão na Massa (abre pela página "Como usar").
+  // Instruções completas do Modo Cozinhar (abre pela página "Como usar").
   import Icone from '../componentes/Icone.svelte';
 </script>
 

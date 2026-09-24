@@ -1,6 +1,6 @@
 // Pratoria — encontra tempos dentro do texto de um passo, sem IA.
 // "cozinhe por 12 a 15 minutos" → um trecho clicável que abre um cronômetro de 12 min
-// (com aviso de que pode ir até 15). Usado na receita e no Modo Mão na Massa.
+// (com aviso de que pode ir até 15). Usado na receita e no Modo Cozinhar.
 
 import { lerNumero } from './formato/quantidade.js';
 

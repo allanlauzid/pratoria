@@ -21,7 +21,7 @@ Exemplo completo: `src/data/receitas/salada-mediterranea-sardinha-grao-de-bico.p
 | Imagem | `visual` | LLM | alimenta o prompt de imagem |
 | Foto original | `foto_original` (link direto da foto do site, ou vazio) | LLM | botão "Abrir a foto original" na etapa da foto; a imagem é salva e enviada pelo usuário |
 | Compras | `## COMPRAS`: item \| quantidade para comprar \| seção do mercado — **obrigatória e primeira seção**, mesmo que repita os ingredientes (se faltar, o site monta a partir dos ingredientes) | LLM | lista no topo da receita e agrupada por seção do mercado |
-| Preparo | `## PREPARACAO` → `NOTA`, `INGREDIENTES`, `PASSOS`, `DICAS` | LLM | página da receita e Modo Mão na Massa |
+| Preparo | `## PREPARACAO` → `NOTA`, `INGREDIENTES`, `PASSOS`, `DICAS` | LLM | página da receita e Modo Cozinhar |
 | Extras | `## SUBSTITUICOES`, `VARIACOES`, `SERVIR`, `CONSERVACAO` | LLM | páginas extras do livro; "não tenho X" |
 | Ilustrações | `## ILUSTRACOES`: ordem \| ingrediente \| como desenhar \| preparação:passo | LLM (até 6, 9 ou 12, conforme a preferência) | cartela a giz; prateleira que acumula os desenhos no livro |
 | Adaptação | `ajustes:` | site, no prompt (ajustes pré-prontos) | avisa que a receita foi adaptada (ex.: `gramas e ml, 4 porções`) |

@@ -2,6 +2,7 @@
 // • Pré-cache de todo o app (HTML, JS, CSS, fontes, ícones, receita-piloto) → funciona offline.
 // • Navegação cai sempre no index.html (app de página única).
 // • Recebe o que o Android compartilha para o Pratoria (share_target, POST).
+// • Tocar na notificação do cronômetro abre o app.
 // • Nova versão só assume quando o usuário tocar em "Atualizar".
 
 import { precacheAndRoute, cleanupOutdatedCaches, createHandlerBoundToURL } from 'workbox-precaching';
@@ -30,3 +31,15 @@ cleanupOutdatedCaches();
 registerRoute(new NavigationRoute(createHandlerBoundToURL('index.html')));
 
 self.addEventListener('message', (e) => { if (e.data?.type === 'SKIP_WAITING') self.skipWaiting(); });
+
+// Tocar numa notificação de cronômetro: volta para o app (ou abre, se estiver fechado).
+self.addEventListener('notificationclick', (evento) => {
+  evento.notification.close();
+  const alvo = evento.notification.data?.url || self.registration.scope;
+  evento.waitUntil((async () => {
+    const janelas = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    const aberta = janelas.find((j) => j.url.startsWith(self.registration.scope));
+    if (aberta) { await aberta.focus(); return; }
+    await self.clients.openWindow(alvo);
+  })());
+});

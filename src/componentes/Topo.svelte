@@ -1,9 +1,9 @@
 <script>
-  // Cabeçalho das telas no celular: marca (ou voltar) + ações à direita.
+  // Cabeçalho das telas no celular: marca (ou voltar) + nuvem + Mais (menu) à direita.
   import Marca from './Marca.svelte';
   import Icone from './Icone.svelte';
   import NuvemStatus from './NuvemStatus.svelte';
-  import { cron, abrirCronometro } from '../lib/cronometros.svelte.js';
+  import { rota } from '../lib/rota.svelte.js';
   let { voltarPara = '', titulo = '', acoes } = $props();
 </script>
 
@@ -17,10 +17,9 @@
     {/if}
   </div>
   <div class="dir">
-    <button class="botao-icone crono" onclick={abrirCronometro} aria-label={cron.lista.length ? `Cronômetro (${cron.lista.length} rodando)` : 'Cronômetro'}>
-      <Icone nome="cronometro" />{#if cron.lista.length}<span class="ponto" aria-hidden="true">{cron.lista.length}</span>{/if}
-    </button>
-    {#if acoes}{@render acoes()}{:else}<NuvemStatus />{/if}
+    {#if acoes}{@render acoes()}{/if}
+    <NuvemStatus />
+    <a class="botao-icone mais" href="#/ajustes" aria-label="Mais: ajustes, backup e conta" aria-current={rota.nome === 'ajustes' ? 'page' : undefined}><Icone nome="menu" /></a>
   </div>
 </header>
 
@@ -36,9 +35,8 @@
   .topo { container-type: inline-size; }
   .esq, .dir { display: flex; align-items: center; gap: .25rem; min-width: 0; }
   .dir { flex: none; }
-  .crono { position: relative; color: var(--tinta-suave); }
-  .ponto { position: absolute; top: 4px; right: 2px; min-width: 18px; height: 18px; border-radius: 9px; background: var(--terracota-forte); color: #fff;
-    font-size: .68rem; font-weight: 800; display: grid; place-items: center; padding: 0 4px; }
+  .mais { color: var(--tinta); }
+  .mais[aria-current='page'] { color: var(--terracota-forte); background: color-mix(in srgb, var(--terracota) 14%, transparent); }
   /* tela estreita ou letra grande: a nuvem vira só o ícone */
   @container (max-width: 360px) { .dir :global(.nuvem span) { display: none; } .dir :global(.nuvem) { padding: 0; width: 40px; justify-content: center; border-color: transparent; background: transparent; } }
   :global(html[data-texto='muito-grande']) .dir :global(.nuvem span) { display: none; }

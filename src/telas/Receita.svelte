@@ -12,7 +12,7 @@
   import Livro from '../livro/Livro.svelte';
   import PassoTexto from '../componentes/PassoTexto.svelte';
   import Substituicoes from '../componentes/Substituicoes.svelte';
-  import { abrirCronometro } from '../lib/cronometros.svelte.js';
+  import CirculoCronometro from '../componentes/CirculoCronometro.svelte';
   import { voz, falar, parar as pararVoz } from '../lib/voz.svelte.js';
   import { roteiroCompleto } from '../core/fala.js';
   import EscolherColecoes from '../componentes/EscolherColecoes.svelte';
@@ -208,7 +208,7 @@
       <div class="cab"><h3>Ilustrações a giz</h3>
         <button class="botao leve" onclick={() => (fazendoIlus = true)}><Icone nome="imagem" tamanho={18} /> {ilus?.recortes?.length ? 'Refazer' : 'Criar'}</button></div>
       {#if ilus?.recortes?.length}<Prateleira itens={ilus.recortes} tamanho={56} />
-      {:else}<p class="meta">Desenhos dos ingredientes que aparecem no Modo Mão na Massa, passo a passo.</p>{/if}
+      {:else}<p class="meta">Desenhos dos ingredientes que aparecem no Modo Cozinhar, passo a passo.</p>{/if}
     </section>
 
     <section id="notas" class="pessoal bloco folha-papel">
@@ -258,8 +258,8 @@
 
   <div class="barra-acao">
     <a class="botao primario cozinhar" href={`#/receita/${id}/cozinhar`}><Icone nome="livro" tamanho={26} /><span><strong>Cozinhar</strong></span></a>
-    <button class="botao leve quadrado" onclick={abrirCronometro} aria-label="Cronômetro"><Icone nome="cronometro" /></button>
     <button class="botao leve quadrado" onclick={() => (compartilhar = true)} aria-label="Compartilhar"><Icone nome="compartilhar" /></button>
+    <div class="vaga-crono"><div class="sobe"><CirculoCronometro tamanho={58} /></div></div>
   </div>
 
   <Compartilhar bind:aberta={compartilhar} registro={reg} />
@@ -366,13 +366,20 @@
   .fim { justify-content: flex-end; margin-top: 1rem; }
   .perigo { color: var(--erro); }
 
-  .barra-acao { position: fixed; left: 0; right: 0; bottom: 0; z-index: 25; display: grid; grid-template-columns: 1fr 56px 56px; gap: .6rem;
+  .barra-acao { position: fixed; left: 0; right: 0; bottom: 0; z-index: 25; display: grid; grid-template-columns: minmax(0, 1fr) 56px 118px; gap: .6rem;
     padding: .6rem 1rem calc(.6rem + env(safe-area-inset-bottom)); background: var(--papel-folha); border-top: 1px solid var(--linha); }
   .cozinhar { justify-content: flex-start; gap: .8rem; min-height: 60px; text-align: left; }
   .cozinhar span { display: grid; line-height: 1.2; }
   .cozinhar strong { font-size: 1.1rem; }
   .cozinhar small { font-weight: 400; opacity: .9; }
   .quadrado { min-height: 60px; padding: 0; }
+  .vaga-crono { position: relative; }
+  .sobe { position: absolute; right: calc(34px + .35rem); bottom: 6px; }
+  @media (max-width: 360px) {
+    .barra-acao { grid-template-columns: minmax(0, 1fr) 48px 108px; gap: .4rem; padding-inline: .6rem; }
+    .cozinhar { gap: .5rem; padding-inline: .6rem; }
+    .sobe { right: calc(34px + .25rem); }
+  }
 
   @media (min-width: 56rem) {
     .corpo { grid-template-columns: minmax(16rem, 2fr) 3fr; align-items: start; }

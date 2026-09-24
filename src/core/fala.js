@@ -1,6 +1,6 @@
 // Pratoria — texto para ser LIDO EM VOZ ALTA, sem IA.
 // A voz do sistema (Web Speech) lê melhor "meia xícara" do que "½ xíc.", "180 graus" do que "180 °C".
-// Também monta o roteiro de cada página do Modo Mão na Massa e da receita inteira.
+// Também monta o roteiro de cada página do Modo Cozinhar e da receita inteira.
 
 const FRACOES = { '¼': 'um quarto', '¾': 'três quartos', '⅓': 'um terço', '⅔': 'dois terços', '⅛': 'um oitavo' };
 const FEM = /^(x[íi]caras?|colher(es)?|latas?|cebolas?|pitadas?|fatias?|folhas?|gotas?|unidades?|caixas?|garrafas?|postas?|rodelas?|bandejas?|cenouras?|batatas?|abobrinhas?|berinjelas?|laranjas?|ma[çc][ãa]s?|x[íi]c)\b/i;

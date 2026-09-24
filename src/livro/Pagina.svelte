@@ -39,7 +39,7 @@
 
 {:else if pg.tipo === 'guia'}
   <div class="pag guia">
-    <header class="pag-cab"><div class="pag-kicker">Antes de começar</div><h2>Como usar o Mão na Massa</h2></header>
+    <header class="pag-cab"><div class="pag-kicker">Antes de começar</div><h2>Como usar o Modo Cozinhar</h2></header>
     <div class="pag-corpo rola" data-rola>
       <ul class="pag-guia">
         <li><span class="gi"><Icone nome="livro" tamanho={20} /></span><span><strong>Vire as páginas</strong> deslizando, ou tocando na margem direita.</span></li>

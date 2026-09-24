@@ -88,8 +88,8 @@
   }
   const temCompras = $derived(f.compras.some((c) => c.item.trim()));
   const MENSAGEM = {
-    amarelo: 'Passo longo. No Mão na Massa ele ocupa boa parte da página: em celulares pequenos a letra pode ficar menor ou o texto pode precisar rolar, e fica mais difícil achar onde parou com as mãos ocupadas. Se der, divida em dois.',
-    vermelho: `Longo demais para o Mão na Massa (mais de ${LIMITE_PASSO.amarelo} caracteres). Divida em mais de um campo`,
+    amarelo: 'Passo longo. No Modo Cozinhar ele ocupa boa parte da página: em celulares pequenos a letra pode ficar menor ou o texto pode precisar rolar, e fica mais difícil achar onde parou com as mãos ocupadas. Se der, divida em dois.',
+    vermelho: `Longo demais para o Modo Cozinhar (mais de ${LIMITE_PASSO.amarelo} caracteres). Divida em mais de um campo`,
   };
 </script>
 
@@ -110,7 +110,7 @@
       <ol>
         <li><strong>Lista de compras:</strong> o que precisa comprar, com a quantidade de mercado (ex.: 1 lata).</li>
         <li><strong>Etapas de preparo:</strong> uma receita pode ter mais de uma. Ex.: a salada de sardinha tem “Grão-de-bico” (cozinhar o grão) e “Salada” (montar). Cada etapa tem os <em>seus</em> ingredientes e os <em>seus</em> passos.</li>
-        <li><strong>Passos curtos:</strong> um trecho por campo. É assim que eles cabem bonitos no Modo Mão na Massa.</li>
+        <li><strong>Passos curtos:</strong> um trecho por campo. É assim que eles cabem bonitos no Modo Cozinhar.</li>
       </ol>
       <div class="quantas" role="group" aria-label="Quantas etapas de preparo">
         <span>Quantas etapas de preparo?</span>
@@ -227,7 +227,7 @@
           </li>
         {/each}
       </ol>
-      {#if e.passos.some(temTempo)}<p class="credito"><Icone nome="cronometro" tamanho={14} /> Os tempos dos passos viram cronômetros no Modo Mão na Massa.</p>{/if}
+      {#if e.passos.some(temTempo)}<p class="credito"><Icone nome="cronometro" tamanho={14} /> Os tempos dos passos viram cronômetros no Modo Cozinhar.</p>{/if}
 
       <details class="mais">
         <summary>Dicas e observação {f.etapas.length > 1 ? 'desta etapa' : ''}</summary>

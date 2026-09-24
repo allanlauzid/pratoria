@@ -4,7 +4,7 @@
   import Anel from './Anel.svelte';
   import Icone from './Icone.svelte';
   import CartaoCronometro from './CartaoCronometro.svelte';
-  import { cron, iniciarCronometro, relogioTexto } from '../lib/cronometros.svelte.js';
+  import { cron, iniciarCronometro, relogioTexto, ordenados } from '../lib/cronometros.svelte.js';
   import { rotuloDuracao } from '../core/tempos.js';
 
   const PRONTOS = [1, 3, 5, 10, 15, 20, 30, 45, 60];
@@ -29,17 +29,19 @@
     </div>
     <label class="campo"><span>Para quê? <small>(opcional)</small></span>
       <input class="entrada" bind:value={nome} maxlength="40" placeholder="Ex.: bolo no forno, arroz, massa" enterkeyhint="go" onkeydown={(e) => e.key === 'Enter' && iniciar()} /></label>
-    <button class="botao primario bloco iniciar" onclick={iniciar}><Icone nome="tocar" /> Iniciar {rotuloDuracao(seg)}</button>
+    <button class="botao primario bloco iniciar" onclick={iniciar}>
+      <span class="ic-grande"><Icone nome={cron.lista.length ? 'mais' : 'tocar'} tamanho={30} /></span>
+      {cron.lista.length ? 'Adicionar' : 'Iniciar'} {rotuloDuracao(seg)}
+    </button>
 
     {#if cron.lista.length}
-      <h3>Rodando agora</h3>
       <div class="lista">
-        {#each cron.lista as c (c.id)}
+        {#each ordenados() as c (c.id)}
           <CartaoCronometro tempo={{ min: c.duracao, max: c.duracao }} chave={c.chave || c.id} rotulo={c.rotulo} detalhe={c.titulo} compacto={false} />
         {/each}
       </div>
     {/if}
-    <p class="credito">Toca e vibra quando acabar. Com a tela bloqueada o aviso pode atrasar — no Modo Mão na Massa a tela fica ligada.</p>
+    <p class="credito">Toca e vibra quando acabar. Com a tela bloqueada o aviso pode atrasar — no Modo Cozinhar a tela fica ligada. Dois toques na tela param o alarme.</p>
   {/if}
 </Folha>
 
@@ -52,7 +54,8 @@
   .chip[aria-pressed='true'] { background: var(--mostarda); border-color: var(--mostarda); color: #2a1d08; }
   .campo small { font-weight: 400; }
   .iniciar { margin-top: .75rem; min-height: 56px; font-size: 1.1rem; }
-  h3 { font-size: 1.05rem; margin: 1.25rem 0 .5rem; }
-  .lista { display: grid; gap: .5rem; }
+  .lista { display: grid; gap: .5rem; margin-top: 1.25rem; }
+  .ic-grande { display: grid; place-items: center; margin: -6px 0; }
+  .ic-grande :global(path) { stroke-width: 2.4; fill: currentColor; }
   .credito { margin: 1rem 0 0; text-align: center; }
 </style>

@@ -44,6 +44,9 @@ h1, h2, h3 {
   transition: transform var(--dur-curta) var(--mola-padrao), background var(--dur-curta);
 }
 .botao:active { transform: scale(.97); }
+/* ícone nunca encolhe nem desalinha quando o texto quebra em duas linhas */
+.botao > svg { flex: none; }
+.botao { text-align: center; line-height: 1.25; }
 .botao:disabled, .botao[aria-disabled='true'] { opacity: .45; cursor: not-allowed; transform: none; }
 .botao.primario { background: var(--terracota-forte); border-color: var(--terracota-forte); color: #fff; }
 .botao.escuro { background: var(--tinta); border-color: var(--tinta); color: var(--papel-folha); }

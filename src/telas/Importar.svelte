@@ -244,7 +244,7 @@
   {:else if r.passo === 'giz' && salva}
     <section class="folha-papel bloco">
       <h2>Ilustrações a giz</h2>
-      <p class="meta">Opcional. Os desenhos aparecem no Modo Mão na Massa, entrando a cada passo.</p>
+      <p class="meta">Opcional. Os desenhos aparecem no Modo Cozinhar, entrando a cada passo.</p>
       <EtapaIlustracoes receita={salva} id={r.receitaId} aoTerminar={terminar} aoPular={terminar} />
     </section>
   {:else}

@@ -14,6 +14,9 @@
   import Cronometros from './componentes/Cronometros.svelte';
   import FolhaCronometro from './componentes/FolhaCronometro.svelte';
   import VozControle from './componentes/VozControle.svelte';
+  import AlarmeTela from './componentes/AlarmeTela.svelte';
+  import { iniciarPipAutomatico } from './lib/pip.svelte.js';
+  $effect(() => { if (app.pronto) iniciarPipAutomatico(); });
 
   // Rolagem ao topo ao trocar de tela (exceto ao abrir/fechar o livro).
   let ultima = '';
@@ -50,7 +53,7 @@
   </main>
 </div>
 {#if app.pronto && rota.nome !== 'cozinhar'}<Cronometros />{/if}
-{#if app.pronto}<FolhaCronometro /><VozControle />{/if}
+{#if app.pronto}<FolhaCronometro /><VozControle /><AlarmeTela />{/if}
 {#if app.pronto && app.boasVindas}<BoasVindas />{/if}
 <Avisos />
 

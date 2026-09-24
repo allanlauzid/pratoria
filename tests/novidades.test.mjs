@@ -147,3 +147,18 @@ test('texto para fala e roteiros', async () => {
   assert.equal(tudo[0], 'Salada Mediterrânea de Sardinha com Grão-de-bico.');
   assert.ok(tudo.some((t) => t.startsWith('Passo 9.')));
 });
+
+test('avisos do cronômetro', async () => {
+  const { avisosDoCronometro, nivelDeAlerta, ordenarPorRestante } = await import('../src/core/alertas.js');
+  assert.deepEqual(avisosDoCronometro(900).map((a) => [a.seg, a.toques]), [[300, 1], [120, 1], [60, 2], [30, 2]]);
+  assert.deepEqual(avisosDoCronometro(180).map((a) => a.seg), [60, 30]);
+  assert.deepEqual(avisosDoCronometro(300).map((a) => a.seg), [60, 30]);
+  assert.deepEqual(avisosDoCronometro(60).map((a) => a.seg), [30]);
+  assert.deepEqual(avisosDoCronometro(20), []);
+  assert.equal(nivelDeAlerta(119), 'amarelo');
+  assert.equal(nivelDeAlerta(45), 'laranja');
+  assert.equal(nivelDeAlerta(10), 'vermelho');
+  assert.equal(nivelDeAlerta(500), null);
+  const l = [{ id: 'a', r: 90 }, { id: 'b', r: 10 }, { id: 'c', r: 400 }];
+  assert.deepEqual(ordenarPorRestante(l, (x) => x.r).map((x) => x.id), ['b', 'a', 'c']);
+});

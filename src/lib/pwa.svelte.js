@@ -4,7 +4,7 @@ import { Workbox } from 'workbox-window';
 export const pwa = $state({ novaVersao: false, podeInstalar: false, instalado: false, ios: false });
 let wb = null;
 let eventoInstalar = null;
-/** Quando true (ex.: Modo Mão na Massa aberto), a atualização espera. */
+/** Quando true (ex.: Modo Cozinhar aberto), a atualização espera. */
 export const trava = { cozinhando: false };
 
 export function iniciarPwa() {
