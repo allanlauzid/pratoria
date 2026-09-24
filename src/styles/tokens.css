@@ -1,0 +1,80 @@
+/* =====================================================================
+   Pratoria — tokens de design (direção RÚSTICA, não luxo)
+   Caderno de cozinha de família, contemporâneo: papel com grão, tinta
+   sépia/carvão, acentos de terracota, oliva e mostarda.
+   A disciplina é editorial (legibilidade, respiro); o material é rústico.
+   Texturas e ornamentos NUNCA ficam atrás de texto de leitura.
+   ===================================================================== */
+
+:root {
+  /* ---- papel ---- */
+  --papel:          #F3EBDD;  /* fundo principal */
+  --papel-folha:    #FAF5EC;  /* folhas/cartões (área de leitura) */
+  --papel-kraft:    #E6D8BF;  /* capa, faixas, blocos secundários */
+  --linha:          #D8C8AC;  /* divisórias, pautas */
+
+  /* ---- tinta ---- */
+  --tinta:          #2A241E;  /* texto principal */
+  --tinta-suave:    #5E4F40;  /* texto secundário (sépia) */
+  --tinta-fraca:    #6F604E;  /* crédito, metadados discretos */
+
+  /* ---- acentos (vêm da comida) ---- */
+  --terracota:      #A94B30;
+  --terracota-forte:#8E3C24;  /* botões principais (contraste AA com branco) */
+  --oliva:          #56613A;
+  --mostarda:       #C08A2E;
+  --tomate:         #B8432E;
+
+  /* ---- estados ---- */
+  --foco:           #C08A2E;
+  --erro:           #9E2F1F;
+  --sucesso:        #4E6B32;
+
+  /* ---- tipografia ----
+     Títulos: Fraunces (serifada "macia", eixo SOFT alto = caseira, não luxuosa).
+     Texto:   Atkinson Hyperlegible Next (feita para legibilidade à distância).
+     Auto-hospedadas via @fontsource (funcionam offline). */
+  --fonte-titulo: "Fraunces Variable", "Fraunces", "Iowan Old Style", Georgia, serif;
+  --fonte-texto:  "Atkinson Hyperlegible Next Variable", "Atkinson Hyperlegible Next", system-ui, sans-serif;
+  --titulo-variacao: "SOFT" 80, "WONK" 1, "opsz" 72;
+
+  --t-corpo:   1.0625rem;  /* 17px: mínimo para ingredientes/instruções */
+  --t-livro:   clamp(1.15rem, 1rem + 1.2vw, 1.35rem);  /* texto do Modo Mão na Massa */
+  --t-meta:    0.875rem;
+  --t-credito: 0.75rem;
+  --t-h1:      clamp(2rem, 1.4rem + 3vw, 3.5rem);
+  --t-h2:      clamp(1.5rem, 1.2rem + 1.5vw, 2.25rem);
+  --entrelinha: 1.6;
+
+  /* ---- espaço e forma ---- */
+  --e-1: .25rem; --e-2: .5rem; --e-3: .75rem; --e-4: 1rem; --e-5: 1.5rem; --e-6: 2rem; --e-7: 3rem;
+  --raio-p: 6px; --raio-m: 12px; --raio-folha: 4px 14px 14px 4px;
+  --toque: 48px;           /* alvo mínimo de toque */
+  --sombra-folha: 0 1px 0 rgba(60,40,20,.06), 0 10px 28px -12px rgba(60,40,20,.28);
+  --sombra-baixa: 0 1px 2px rgba(60,40,20,.12);
+
+  /* ---- movimento ---- */
+  --mola-padrao: cubic-bezier(.22,.8,.26,1);
+  --dur-curta: 160ms; --dur-media: 280ms;
+
+  color-scheme: light;
+}
+
+/* Grão de papel: só em superfícies SEM texto de leitura (capa, faixas). */
+.textura-papel {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .25 0 0 0 0 .15 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-contrast: more) {
+  :root { --tinta-suave: #3E3328; --tinta-fraca: #4E4134; --linha: #9C8A6C; }
+}
+
+/* ---- preferências gerais de leitura (Mais → Exibição) ---- */
+html[data-texto='grande'] { font-size: 112.5%; }
+html[data-texto='muito-grande'] { font-size: 125%; }
+html[data-contraste='alto'] {
+  --papel: #F6F0E4; --papel-folha: #FFFDF8; --linha: #8C7A5E;
+  --tinta: #14100C; --tinta-suave: #2E251C; --tinta-fraca: #3F3428;
+  --terracota-forte: #7A2F18; --oliva: #3F4A26;
+}
+html[data-contraste='alto'] .folha-papel { box-shadow: 0 0 0 1.5px var(--linha); }

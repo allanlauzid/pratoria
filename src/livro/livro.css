@@ -1,0 +1,164 @@
+/* Modo Mão na Massa — estilos globais do livro (usados também pelo medidor). */
+.livro {
+  position: fixed; inset: 0; z-index: 1000; margin: 0; padding: 0; border: 0;
+  width: 100%; height: 100%; max-width: none; max-height: none;
+  background: #2b241c; color: var(--tinta);
+  display: flex; flex-direction: column;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  animation: livro-entra .32s var(--mola-padrao);
+  overscroll-behavior: contain;
+}
+.livro::backdrop { background: #2b241c; }
+@keyframes livro-entra { from { opacity: 0; } }
+.livro-barra { flex: none; height: 52px; display: grid; grid-template-columns: 96px 1fr 96px; align-items: center; color: #efe6d6; padding: 0 4px; }
+.livro-barra .botao-icone { color: inherit; font-size: 1.4rem; }
+.livro-progresso { text-align: center; font-size: .82rem; font-weight: 800; letter-spacing: .08em; font-variant-numeric: tabular-nums; opacity: .85; }
+
+.livro-palco {
+  position: relative; flex: 1; min-height: 0; margin: 0 10px 12px;
+  touch-action: pan-y; user-select: none; -webkit-user-select: none;
+  perspective: 1800px;
+  -webkit-touch-callout: none;
+}
+.livro-palco img { -webkit-user-drag: none; user-select: none; pointer-events: none; }
+.folha {
+  position: absolute; top: 0; bottom: 0; left: 50%; width: min(100%, 34rem); max-height: 56rem; margin: auto 0;
+  translate: -50% 0;
+  background: var(--papel-folha); border-radius: 3px 14px 14px 3px;
+  box-shadow: 0 1px 0 rgba(0,0,0,.05), 0 18px 50px -18px rgba(0,0,0,.65);
+  transform-origin: left center; backface-visibility: hidden; will-change: transform;
+  overflow: hidden;
+}
+.folha::before { /* lombada: leve sombra na margem esquerda */
+  content: ''; position: absolute; inset: 0 auto 0 0; width: 18px; pointer-events: none; z-index: 2;
+  background: linear-gradient(to right, rgba(80,55,30,.16), transparent);
+}
+.folha .sombra { position: absolute; inset: 0; pointer-events: none; z-index: 5; opacity: 0; }
+.folha.virando .sombra { background: linear-gradient(to left, rgba(60,40,20,.45), rgba(60,40,20,.08) 55%, rgba(255,255,255,.12)); }
+.folha.embaixo .sombra { background: linear-gradient(to right, rgba(20,12,5,.55), rgba(20,12,5,.05) 60%); }
+
+/* ---------- conteúdo da página ---------- */
+.pag { height: 100%; display: flex; flex-direction: column; padding: 1.4rem 1.35rem 2.4rem 1.6rem; position: relative; }
+.pag-cab { flex: none; margin-bottom: .8rem; }
+.pag-kicker { font-size: .74rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--terracota); }
+.pag h2 { font-size: clamp(1.55rem, 1.2rem + 2vw, 2.1rem); margin: .15rem 0 0; }
+.pag-parte { display: inline-block; margin-top: .5rem; padding: .15rem .6rem; border: 1px solid var(--linha); border-radius: 999px; font-size: .78rem; font-weight: 800; color: var(--tinta-suave); }
+.pag-corpo { flex: 1; min-height: 0; overflow: hidden; font-size: var(--t-livro); line-height: 1.5; }
+.pag-corpo.rola { overflow-y: auto; overscroll-behavior: contain; margin-right: -.5rem; padding-right: .5rem; }
+.pag-numero { position: absolute; right: 1.1rem; bottom: .8rem; font-family: var(--fonte-titulo); font-size: .95rem; color: var(--tinta-fraca); font-variant-numeric: oldstyle-nums; }
+
+.pag-passos { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+.pag-passos li { position: relative; padding-left: 2.6rem; }
+.pag-passos .n { position: absolute; left: 0; top: .05em; width: 1.9rem; height: 1.9rem; display: grid; place-items: center; border-radius: 50%;
+  background: var(--papel-kraft); font-family: var(--fonte-titulo); font-weight: 700; font-size: 1rem; }
+.pag-passos .dica { padding: .6rem .8rem; border-left: 4px solid var(--mostarda); background: color-mix(in srgb, var(--mostarda) 10%, transparent); border-radius: 0 8px 8px 0; font-size: .92em; }
+
+.pag-lista { list-style: none; margin: 0; padding: 0; }
+.pag-lista li { padding: .7rem 0; border-bottom: 1px dashed var(--linha); }
+.pag-lista li:last-child { border-bottom: 0; }
+.pag-nota { font-family: var(--fonte-titulo); font-size: 1.02em; line-height: 1.45; border-left: 4px solid var(--mostarda); padding: .1rem 0 .1rem .8rem; margin: 0 0 .8rem; }
+.pag-compras label { width: fit-content; max-width: 72%; display: flex; align-items: center; gap: .9rem; min-height: 52px; padding: .35rem 0; cursor: pointer; }
+.pag-compras input { flex: none; width: 28px; height: 28px; accent-color: var(--oliva); margin: 0; }
+.pag-compras input:checked + span { text-decoration: line-through; color: var(--tinta-fraca); }
+.pag-compras small { display: block; font-size: .78em; color: var(--tinta-suave); }
+.pag-secao { font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--oliva); margin: .9rem 0 .1rem; }
+
+.pag-centro { flex: 1; display: grid; place-content: center; text-align: center; gap: .5rem; }
+.pag-grande { font-family: var(--fonte-titulo); font-variation-settings: var(--titulo-variacao); font-weight: 700; font-size: clamp(5rem, 28vw, 8rem); line-height: .9; }
+.pag-foto { flex: 1 1 0; max-height: 60%; min-height: 80px; display: grid; place-items: center; background: radial-gradient(ellipse at 50% 60%, var(--papel-kraft), transparent 70%); border-radius: 10px; }
+.pag-foto img { width: 100%; height: 100%; object-fit: contain; }
+.pag.capa { background: linear-gradient(var(--papel-kraft), var(--papel-kraft)); }
+.pag.capa .pag-centro h2, .pag.final .pag-centro h2 { font-size: clamp(1.5rem, 1.1rem + 3vw, 2.4rem); }
+.pag.capa .pag-centro, .pag.final .pag-centro { flex: none; padding-top: .75rem; gap: .35rem; }
+.pag.capa .pag-centro p, .pag.final .pag-centro p { margin: 0; }
+@media (max-height: 640px) {
+  .pag { padding-top: 1rem; }
+  .pag.capa .pag-centro h2, .pag.final .pag-centro h2 { font-size: 1.45rem; }
+  .pag-botoes { margin-top: .4rem; }
+}
+.pag-dica-virar { font-weight: 800; color: var(--terracota-forte); }
+.pag-botoes { display: grid; gap: .5rem; margin-top: .75rem; width: min(100%, 18rem); justify-self: center; }
+
+/* medidor invisível (mesmo tamanho da folha) */
+.folha.medir { visibility: hidden; pointer-events: none; transform: none !important; z-index: -1; }
+
+/* ---------- menu, retomar, tutorial ---------- */
+.livro-menu { position: absolute; right: 10px; top: calc(52px + env(safe-area-inset-top)); z-index: 50; width: min(20rem, calc(100% - 20px));
+  background: var(--papel-folha); border-radius: 14px; padding: .4rem; box-shadow: 0 18px 50px -10px rgba(0,0,0,.6); max-height: 75dvh; overflow-y: auto; }
+.livro-menu button, .livro-menu label { display: flex; align-items: center; justify-content: space-between; gap: .75rem; width: 100%; min-height: 48px; padding: .5rem .75rem;
+  border: 0; background: transparent; border-radius: 10px; text-align: left; font-weight: 700; cursor: pointer; }
+.livro-menu button:active { background: var(--papel); }
+.livro-menu hr { border: 0; border-top: 1px solid var(--linha); margin: .3rem .5rem; }
+.livro-menu .ir { font-weight: 400; }
+.livro-menu input[type='checkbox'] { width: 24px; height: 24px; accent-color: var(--oliva); }
+.livro-cartao { position: absolute; left: 50%; bottom: 1.5rem; translate: -50% 0; z-index: 40; width: min(calc(100% - 2rem), 26rem);
+  background: var(--papel-folha); border-radius: 16px; padding: 1rem; box-shadow: 0 18px 50px -10px rgba(0,0,0,.6); }
+.livro-cartao p { margin: 0 0 .75rem; }
+.livro-cartao .linha { display: flex; gap: .5rem; }
+.livro-cartao .linha .botao { flex: 1; }
+.livro-tutorial { position: absolute; left: 50%; top: 1rem; translate: -50% 0; z-index: 40; pointer-events: none; width: min(calc(100% - 3rem), 20rem);
+  background: rgba(35,25,15,.88); color: #fff; padding: .9rem 1.1rem; border-radius: 14px; text-align: center; font-weight: 700; animation: livro-entra .4s .3s both; }
+
+/* ---------- desktop: duas páginas lado a lado ---------- */
+.livro.duplo .folha { width: min(46%, 32rem); max-height: 50rem; }
+.livro.duplo .folha.esquerda { left: 50%; translate: -100% 0; border-radius: 14px 3px 3px 14px; transform-origin: right center; }
+.livro.duplo .folha.direita { left: 50%; translate: 0 0; }
+.livro.duplo .folha.esquerda::before { inset: 0 0 0 auto; background: linear-gradient(to left, rgba(80,55,30,.16), transparent); }
+.livro.duplo .folha.sozinha { left: 50%; translate: -50% 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .livro, .livro-tutorial { animation: none; }
+  .folha { transition: opacity .18s linear; }
+}
+
+/* ---------- prateleira de ilustrações a giz ---------- */
+.livro.com-prateleira .pag:not(.capa):not(.final) { padding-bottom: 5.2rem; }
+.pag-prateleira { position: absolute; left: 1.4rem; right: 3.2rem; bottom: .55rem; height: 60px; display: flex; align-items: flex-end; overflow: hidden; pointer-events: none; }
+.pag-prateleira .prateleira { flex-wrap: nowrap; }
+.pag-roda { display: flex; justify-content: center; margin-top: -.5rem; }
+.pag-prateleira .prateleira img { flex: 1 1 0; min-width: 0; max-width: 52px; width: auto !important; }
+.pag-prateleira .prateleira img.nova { max-width: 60px; flex-grow: 1.4; }
+
+/* cronômetros pré-configurados da página (mesma altura no medidor e na página real) */
+.pag-cronos { flex: none; display: grid; gap: .4rem; margin-top: .6rem; position: relative; z-index: 3; }
+.pag-cronos > * { height: 60px; }
+.livro-dir { display: flex; justify-content: flex-end; }
+
+/* ---- marcadores discretos: círculo cheio com furo; ao marcar, check verde grande ---- */
+.marcavel { cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.marcavel:focus-visible { outline: 3px solid var(--foco); outline-offset: 3px; border-radius: 6px; }
+.marcador { display: inline-block; flex: none; width: 16px; height: 16px; border-radius: 50%; vertical-align: -2px;
+  background: radial-gradient(circle, transparent 0 3.2px, color-mix(in srgb, var(--linha) 85%, var(--tinta-fraca)) 3.6px); transition: transform .18s var(--mola-padrao); }
+.marcavel.feito .marcador { width: 24px; height: 24px; margin: -4px; background: var(--oliva) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4L18 8'/%3E%3C/svg%3E") center / 16px no-repeat;
+  box-shadow: 0 2px 6px -2px rgba(60,80,30,.5); animation: marcou .28s var(--mola-padrao); }
+@keyframes marcou { from { transform: scale(.4); } 60% { transform: scale(1.15); } }
+@media (prefers-reduced-motion: reduce) { .marcavel.feito .marcador { animation: none; } }
+/* listas (compras e ingredientes) */
+.pag-lista li.marcavel { display: flex; align-items: center; gap: .8rem; }
+.pag-lista li.marcavel small { display: block; font-size: .78em; color: var(--tinta-suave); }
+.pag-lista li.marcavel.feito > span:not(.marcador) , .pag-lista li.marcavel.feito { color: var(--tinta-suave); }
+.pag-compras li.marcavel.feito > span:not(.marcador) { text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--oliva) 70%, transparent); }
+/* passos: marcador na margem, antes do número */
+.pag-passos li.marcavel { padding-left: 3.7rem; }
+.pag-passos li.marcavel .marcador { position: absolute; left: 0; top: .5em; }
+.pag-passos li.marcavel .n { left: 1.35rem; }
+.pag-passos li.marcavel.feito .marcador { top: calc(.5em - 4px); left: -4px; margin: 0; }
+.pag-passos li.marcavel.feito { color: var(--tinta-suave); }
+/* página "Como usar" */
+.pag-guia { list-style: none; margin: 0 0 1rem; padding: 0; display: grid; gap: .85rem; font-size: .92em; line-height: 1.4; }
+.pag-guia li { display: grid; grid-template-columns: 36px 1fr; gap: .7rem; align-items: start; }
+.pag-guia .gi { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; background: color-mix(in srgb, var(--mostarda) 16%, transparent); color: var(--terracota-forte); }
+.marcador.demo { width: 18px; height: 18px; }
+.pag-ver-tudo { width: 100%; }
+
+/* ---- painel de voz (topo do livro) ---- */
+.livro-barra .botao-icone.ativo { color: var(--mostarda); }
+.livro-voz { position: absolute; z-index: 55; top: calc(52px + env(safe-area-inset-top)); right: 10px; left: 10px; margin-inline: auto; max-width: 30rem;
+  display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; padding: .45rem .5rem; border-radius: 16px; background: #1d1813; color: #efe6d6;
+  box-shadow: 0 12px 30px -12px rgba(0,0,0,.6); }
+.lv-txt { flex: 1; min-width: 8rem; font-size: .88rem; padding-left: .3rem; }
+.lv-acao { display: inline-flex; align-items: center; gap: .35rem; min-height: 40px; padding: 0 .8rem; border-radius: 999px; border: 0; background: var(--mostarda); color: #2a1d08; font-weight: 800; cursor: pointer; }
+.lv-acao + .lv-acao { background: rgba(255,255,255,.12); color: inherit; }
+.lv-b { min-width: 40px; height: 40px; border-radius: 999px; border: 0; background: rgba(255,255,255,.12); color: inherit; font-weight: 800; cursor: pointer; display: grid; place-items: center; padding: 0 .5rem; }
+.lv-auto { display: inline-flex; align-items: center; gap: .35rem; font-size: .82rem; font-weight: 700; margin-left: auto; cursor: pointer; }
+.lv-auto input { width: 20px; height: 20px; accent-color: var(--mostarda); }

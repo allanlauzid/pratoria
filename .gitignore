@@ -1,0 +1,5 @@
+node_modules/
+dist/
+.env
+_to_delete/
+*.tgz

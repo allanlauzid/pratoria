@@ -1,0 +1,93 @@
+@import '@fontsource-variable/fraunces/full.css';
+@import '@fontsource-variable/atkinson-hyperlegible-next/index.css';
+@import './tokens.css';
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: var(--fonte-texto);
+  font-size: var(--t-corpo);
+  line-height: var(--entrelinha);
+  overflow-wrap: break-word;
+  -webkit-tap-highlight-color: transparent;
+}
+img, svg, video, canvas { display: block; max-width: 100%; }
+button, input, textarea, select { font: inherit; color: inherit; }
+input, textarea, select { font-size: max(16px, 1rem); } /* evita zoom no iOS */
+a { color: var(--terracota-forte); }
+h1, h2, h3 {
+  font-family: var(--fonte-titulo);
+  font-variation-settings: var(--titulo-variacao);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  margin: 0;
+}
+:focus-visible { outline: 3px solid var(--foco); outline-offset: 3px; border-radius: 4px; }
+.visualmente-oculto {
+  position: absolute !important; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+
+/* ---------- botões ---------- */
+.botao {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  min-height: var(--toque); padding: .7rem 1.1rem;
+  border-radius: var(--raio-m); border: 1.5px solid var(--tinta);
+  background: transparent; color: var(--tinta);
+  font-weight: 700; text-decoration: none; cursor: pointer;
+  transition: transform var(--dur-curta) var(--mola-padrao), background var(--dur-curta);
+}
+.botao:active { transform: scale(.97); }
+.botao:disabled, .botao[aria-disabled='true'] { opacity: .45; cursor: not-allowed; transform: none; }
+.botao.primario { background: var(--terracota-forte); border-color: var(--terracota-forte); color: #fff; }
+.botao.escuro { background: var(--tinta); border-color: var(--tinta); color: var(--papel-folha); }
+.botao.leve { border-color: var(--linha); background: var(--papel-folha); }
+.botao.bloco { width: 100%; }
+.botao-icone {
+  display: inline-grid; place-items: center; width: var(--toque); height: var(--toque);
+  border: 0; border-radius: 50%; background: transparent; cursor: pointer; color: inherit;
+}
+.botao-icone:active { background: rgba(60,40,20,.08); }
+
+/* ---------- formulários ---------- */
+.campo { display: grid; gap: .35rem; }
+.campo > span { font-weight: 700; font-size: var(--t-meta); color: var(--tinta-suave); }
+.entrada {
+  width: 100%; min-height: var(--toque); padding: .65rem .85rem;
+  border: 1.5px solid var(--linha); border-radius: var(--raio-m);
+  background: var(--papel-folha);
+}
+.entrada:focus { border-color: var(--mostarda); outline: none; box-shadow: 0 0 0 3px rgba(192,138,46,.25); }
+textarea.entrada { min-height: 10rem; resize: vertical; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 14px; line-height: 1.45; }
+
+/* ---------- superfícies ---------- */
+.folha-papel { background: var(--papel-folha); border: 1px solid var(--linha); border-radius: var(--raio-m); box-shadow: var(--sombra-baixa); }
+.rotulo {
+  font-size: .75rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--terracota);
+}
+.meta { font-size: var(--t-meta); color: var(--tinta-suave); }
+.credito { font-size: var(--t-credito); color: var(--tinta-fraca); }
+.credito a { color: inherit; }
+.pilula {
+  display: inline-flex; align-items: center; gap: .3rem; padding: .3rem .7rem; border-radius: 999px;
+  border: 1px solid var(--linha); background: var(--papel-folha); font-size: var(--t-meta); white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+
+/* ---- tempo clicável dentro de um passo (abre cronômetro) ---- */
+.passo-tempo {
+  display: inline; padding: 0 .15em; margin: 0; border: 0; border-radius: 4px; font: inherit; line-height: inherit; color: var(--terracota-forte);
+  background: color-mix(in srgb, var(--mostarda) 18%, transparent); text-decoration: underline dotted 1.5px; text-underline-offset: 3px; cursor: pointer;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+}
+.passo-tempo::after { content: " ⏱"; font-variant-emoji: text; font-size: .9em; text-decoration: none; }
+.passo-tempo:hover { background: color-mix(in srgb, var(--mostarda) 30%, transparent); }

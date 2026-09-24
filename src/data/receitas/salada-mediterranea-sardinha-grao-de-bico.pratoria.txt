@@ -1,0 +1,109 @@
+#PRATORIA v1
+usuario: Pratoria
+gerado_em: 2026-09-23T12:00:00-03:00
+gerado_por: Pratoria (receita-piloto, revisada à mão)
+prompt_versao: 2026-09-23.2
+titulo: Salada Mediterrânea de Sardinha com Grão-de-bico
+titulo_original: 5 Minute Mediterranean Salad with Sardines and Chickpeas
+descricao: Uma salada fresca e substanciosa, com sardinha, grão-de-bico, vegetais, limão, ervas e azeite.
+categoria: Saladas
+cozinha: mediterrânea
+refeicao: almoço, jantar
+tags: sardinha, grão-de-bico, rápida, sem forno
+rendimento: 1 porção
+porcoes: 1
+tempo_preparo_min: 10
+tempo_cozimento_min: 15
+tempo_espera_min: 480 a 720
+tempo_total_min: 505 a 745
+dificuldade: fácil
+custo: baixo
+equipamentos: panela de pressão, tigela, escorredor
+dieta: sem glúten, sem lactose, sem ovo
+alergenos: peixe
+fonte_site: OliveTomato
+fonte_autor: Elena Paravantes
+fonte_url: https://www.olivetomato.com/5-minute-mediterranean-salad-with-sardines-and-chickpeas/
+idioma_original: inglês
+visual: Filés de sardinha inteiros sobre grão-de-bico, tomate em pedaços, cubos de pepino, cebola roxa em fatias finas, azeitonas Kalamata, alcaparras e bastante salsa fresca, com brilho de azeite.
+
+## COMPRAS
+- grão-de-bico seco | 1 pacote pequeno | mercearia
+- tomate | 1 médio | hortifruti
+- pepino | 1 pequeno | hortifruti
+- cebola | 1 pequena | hortifruti
+- azeitonas Kalamata | 1 vidro pequeno | enlatados e conservas
+- alcaparras | 1 vidro pequeno | enlatados e conservas
+- sardinha em conserva no azeite | 1 lata (100 a 125 g) | enlatados e conservas
+- salsa fresca | 1 maço | hortifruti
+- limão | 1 | hortifruti
+- azeite extravirgem |  | mercearia
+- pimenta-do-reino |  | temperos
+- sal |  | temperos
+
+## PREPARACAO: Grão-de-bico
+### INGREDIENTES
+- 1/4 | xícara | grão-de-bico seco |
+-  |  | água | o suficiente para deixar de molho e cozinhar
+- 1/4 | colher de chá | sal | aproximadamente
+### PASSOS
+1. Lave o grão-de-bico.
+2. Coloque em uma tigela com bastante água, pelo menos três vezes o volume dos grãos.
+3. Deixe de molho por 8 a 12 horas.
+4. Descarte toda a água do molho e enxágue os grãos.
+5. Coloque na panela de pressão, cubra com água nova e acrescente o sal.
+6. Depois que pegar pressão, cozinhe por 12 a 15 minutos.
+7. Verifique o ponto: o grão deve ficar macio por dentro, mas firme e inteiro.
+8. Escorra e deixe esfriar.
+9. Separe ½ xícara de grão-de-bico cozido para a salada.
+### DICAS
+- ¼ de xícara de grão seco rende cerca de ½ xícara de grão cozido.
+
+## PREPARACAO: Salada
+### NOTA
+No preparo, ela usa exatamente esses itens: os seis primeiros são misturados, depois entram sardinha e limão, e por fim salsa, azeite e pimenta.
+### INGREDIENTES
+- 1 |  | tomate médio | picado
+- 1 |  | pepino pequeno | descascado e cortado em cubos
+- 1/2 |  | cebola pequena | bem picada
+- 1/2 | xícara | grão-de-bico cozido |
+- 3 |  | azeitonas Kalamata | sem caroço e fatiadas
+- 2 | colheres de chá | alcaparras |
+- 100 | g | sardinha em conserva no azeite |
+- 1 1/2 | colher de sopa | suco de limão fresco |
+- 1 a 2 | colheres de sopa | salsa fresca | picada
+- 1 a 2 | colheres de chá | azeite extravirgem |
+-  |  | pimenta-do-reino moída na hora | a gosto
+### PASSOS
+1. Em uma tigela, misture tomate, pepino, cebola, grão-de-bico, azeitonas e alcaparras.
+2. Acrescente a sardinha, mantendo um pouco do azeite da própria lata.
+3. Misture delicadamente para preservar os pedaços.
+4. Acrescente o suco de limão e misture suavemente.
+5. Finalize com a salsa fresca.
+6. Acrescente 1 a 2 colheres de chá de azeite extravirgem, se necessário.
+7. Tempere com pimenta-do-reino.
+8. Prove antes de pôr sal: sardinha, azeitonas e alcaparras já são salgadas.
+9. Sirva imediatamente.
+
+## ILUSTRACOES
+- 1 | grão-de-bico | grãos soltos, alguns inteiros e um partido | Grão-de-bico:1
+- 2 | tomate | meio tomate com sementes aparentes | Salada:1
+- 3 | pepino | rodelas e cubos de pepino com casca | Salada:1
+- 4 | cebola | meia cebola roxa com as camadas | Salada:1
+- 5 | azeitona | três azeitonas Kalamata, uma fatiada | Salada:1
+- 6 | alcaparra | punhado de alcaparras | Salada:1
+- 7 | sardinha | sardinha inteira prateada | Salada:2
+- 8 | limão | meio limão com polpa aparente | Salada:4
+- 9 | salsa | ramo de salsa fresca | Salada:5
+
+## SUBSTITUICOES
+- grão-de-bico seco | grão-de-bico em conserva | escorra e lave; pule a primeira preparação
+- sardinha em conserva no azeite | atum em conserva no azeite |
+
+## SERVIR
+- Sozinha, como refeição leve, ou com pão tostado.
+
+## CONSERVACAO
+- Melhor na hora. O grão-de-bico cozido dura 4 dias na geladeira e pode ser congelado.
+
+#FIM
