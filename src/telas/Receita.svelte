@@ -11,6 +11,7 @@
   import AjustesExibicao from '../componentes/AjustesExibicao.svelte';
   import Livro from '../livro/Livro.svelte';
   import PassoTexto from '../componentes/PassoTexto.svelte';
+  import Substituicoes from '../componentes/Substituicoes.svelte';
   import { abrirCronometro } from '../lib/cronometros.svelte.js';
   import { voz, falar, parar as pararVoz } from '../lib/voz.svelte.js';
   import { roteiroCompleto } from '../core/fala.js';
@@ -80,7 +81,7 @@
   }
   async function apagar() { await excluir(id); ir('/', { substituir: true }); avisar('Receita removida'); }
   const irPara = (e, alvo) => { e.preventDefault(); document.getElementById(alvo)?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); };
-  const temExtras = $derived(r && ((ex.secoes.substituicoes && r.substituicoes.length) || (ex.secoes.variacoes && r.variacoes.length) || r.servir.length || r.conservacao.length));
+  const temExtras = $derived(r && ((ex.secoes.substituicoes && r.substituicoes.some((x) => x.fonte)) || (ex.secoes.variacoes && r.variacoes.length) || r.servir.length || r.conservacao.length));
 </script>
 
 {#if !r}
@@ -125,7 +126,7 @@
         {#if r.ajustes?.length}<p class="credito">Adaptada com: {r.ajustes.join(', ')}.</p>{/if}
         {#if r.descricao}<p class="descricao">{r.descricao}</p>{/if}
         <div class="acoes-desktop">
-          <a class="botao primario cozinhar" href={`#/receita/${id}/cozinhar`}><Icone nome="livro" tamanho={24} /><span><strong>Cozinhar</strong><small>Modo Mão na Massa</small></span></a>
+          <a class="botao primario cozinhar" href={`#/receita/${id}/cozinhar`}><Icone nome="livro" tamanho={24} /><span><strong>Cozinhar</strong></span></a>
           <div class="acoes-par">
             <button class="botao leve" onclick={() => (compartilhar = true)}><Icone nome="compartilhar" /> Compartilhar</button>
             <button class="botao leve" onclick={copiarParaWhatsApp}><Icone nome="copiar" /> Copiar p/ WhatsApp</button>
@@ -186,10 +187,7 @@
 
     {#if temExtras}
       <section id="extras" class="extras">
-        {#if ex.secoes.substituicoes && r.substituicoes.length}
-          <div class="bloco folha-papel"><h3>Não tem algum ingrediente?</h3>
-            <ul>{#each r.substituicoes as s}<li><strong>{s.original}</strong> → {s.substituto}{s.obs ? ` (${s.obs})` : ''}</li>{/each}</ul></div>
-        {/if}
+        {#if ex.secoes.substituicoes}<Substituicoes receita={r} />{/if}
         {#if r.servir.length}<div class="bloco folha-papel"><h3>Como servir</h3><ul>{#each r.servir as s}<li>{s}</li>{/each}</ul></div>{/if}
         {#if r.conservacao.length}<div class="bloco folha-papel"><h3>Conservação</h3><ul>{#each r.conservacao as s}<li>{s}</li>{/each}</ul></div>{/if}
         {#if ex.secoes.variacoes && r.variacoes.length}<div class="bloco folha-papel"><h3>Variações</h3><ul>{#each r.variacoes as s}<li>{s}</li>{/each}</ul></div>{/if}
@@ -259,7 +257,7 @@
   </article>
 
   <div class="barra-acao">
-    <a class="botao primario cozinhar" href={`#/receita/${id}/cozinhar`}><Icone nome="livro" tamanho={26} /><span><strong>Cozinhar</strong><small>Modo Mão na Massa</small></span></a>
+    <a class="botao primario cozinhar" href={`#/receita/${id}/cozinhar`}><Icone nome="livro" tamanho={26} /><span><strong>Cozinhar</strong></span></a>
     <button class="botao leve quadrado" onclick={abrirCronometro} aria-label="Cronômetro"><Icone nome="cronometro" /></button>
     <button class="botao leve quadrado" onclick={() => (compartilhar = true)} aria-label="Compartilhar"><Icone nome="compartilhar" /></button>
   </div>
@@ -336,7 +334,7 @@
   .lista-compras { list-style: none; margin: .6rem 0 0; padding: 0; columns: 2 12rem; column-gap: 1.5rem; }
   .lista-compras li { break-inside: avoid; display: flex; justify-content: space-between; gap: .5rem; padding: .35rem 0; border-bottom: 1px dashed var(--linha); }
   .lista-compras small { color: var(--tinta-suave); text-align: right; }
-  section { scroll-margin-top: 120px; }
+  section, .receita [id] { scroll-margin-top: 130px; }
   .bloco { padding: 1rem 1.1rem; }
   .bloco h2 { font-size: 1.45rem; }
   .bloco h3 { font-size: 1.15rem; margin: 1rem 0 .4rem; display: flex; gap: .5rem; align-items: baseline; }

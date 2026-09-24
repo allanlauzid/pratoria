@@ -35,7 +35,9 @@ export async function iniciarCaderno() {
   try {
     db = await Caderno.abrir();
     app.perfil = await db.perfilLocal();
-    if (!(await db.obterConfig('semeado'))) await semear();
+    const semeado = await db.obterConfig('semeado');
+    if (!semeado) await semear();
+    else if (semeado !== PILOTO_VERSAO) await atualizarPiloto();
     app.prefs = {
       ajustes: { ...AJUSTES_PADRAO, ...(await db.obterConfig('pref:ajustes', {})) },
       exibicao: { ...EXIBICAO_PADRAO, ...(await db.obterConfig('pref:exibicao', {})) },
@@ -58,6 +60,17 @@ export async function iniciarCaderno() {
   }
 }
 
+// Mude quando a receita-piloto for revisada: quem já tem o app recebe a versão nova
+// (só se a pessoa não editou a piloto; favorita, notas e fotos continuam).
+const PILOTO_VERSAO = '2026-09-24.subs';
+async function atualizarPiloto() {
+  const r = interpretarReceita(textoPiloto, { origem: 'manual' }).receita;
+  const pronta = await prepararParaCaderno(r, { usuario: 'Pratoria', agora: new Date(r.geradoEm) });
+  const atual = await db.obterReceita(pronta.id);
+  if (atual && !atual.original && !atual.excluidoEm) await db.salvarReceita({ ...pronta, anotacoes: atual.dados.anotacoes ?? [] }, { texto: textoPiloto });
+  await db.salvarConfig('semeado', PILOTO_VERSAO);
+}
+
 async function semear() {
   const r = interpretarReceita(textoPiloto, { origem: 'manual' }).receita;
   const pronta = await prepararParaCaderno(r, { usuario: 'Pratoria', agora: new Date(r.geradoEm) });
@@ -66,7 +79,7 @@ async function semear() {
     const blob = await (await fetch(IMAGEM_PILOTO)).blob();
     await db.salvarImagem(pronta.id, blob);
   } catch { /* sem rede na 1ª abertura: a imagem entra depois */ }
-  await db.salvarConfig('semeado', true);
+  await db.salvarConfig('semeado', PILOTO_VERSAO);
 }
 
 export async function recarregar() {

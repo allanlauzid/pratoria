@@ -2,11 +2,12 @@
 // O site só preenche lacunas; quem executa é o ChatGPT, na conta do usuário.
 // Mudou o texto? Aumente PROMPT_VERSAO (fica gravado em cada receita importada).
 
-import { CATEGORIAS, REFEICOES, DIETAS, ALERGENOS, SECOES_MERCADO, NUTRIENTES } from './listas.js';
+import { CATEGORIAS, REFEICOES, DIETAS, ALERGENOS, SECOES_MERCADO } from './listas.js';
 import { isoLocal } from '../id.js';
 import { aplicarAjustesPrompt } from './ajustes.js';
+import { blocoDeFontes } from './fontes.js';
 
-export const PROMPT_VERSAO = '2026-09-24.2';
+export const PROMPT_VERSAO = '2026-09-24.3';
 const CERCA = '```';
 
 /** Aceita só http(s). Devolve a URL normalizada ou lança erro com mensagem para o usuário. */
@@ -19,21 +20,25 @@ export function validarUrlReceita(entrada) {
 }
 
 const regrasComuns = (aj, secoesMercado) => `2. Português do Brasil, frases simples. Seja fiel: não invente ingredientes, quantidades, tempos nem passos.
-3. Medidas brasileiras (xícara, colher de sopa, colher de chá, g, kg, ml, l, °C). Converta cups, oz, lb e °F.
+3. Medidas brasileiras (xícara, colheres, g, kg, ml, l, °C). Converta cups, oz, lb, °F.
 4. Preparo anterior (massa, molho, grão cozido, marinada) vira outra PREPARACAO, na ordem de execução.
 5. PASSOS: uma ação por passo, no imperativo, até 2 frases curtas (no máximo 90 caracteres), com tempo e temperatura no próprio passo.
 6. Preparação com mais de 5 ingredientes: em NOTA, diga em que ordem eles entram.
-7. INGREDIENTES: 4 campos com |, mesmo vazios: quantidade | unidade | ingrediente | observação. Quantidade em número ou fração (1, 1/2, 1 1/2, 1 a 2); vazia se "a gosto". Itens contáveis sem unidade (2 | | ovos |). Corte e preparo vão na observação.
+7. INGREDIENTES: quantidade | unidade | ingrediente | observação (4 campos, mesmo vazios). Quantidade: 1, 1/2, 1 1/2, 1 a 2; vazia se a gosto. Ex.: 2 | | ovos |. Corte e preparo na observação.
 8. COMPRAS é OBRIGATÓRIA e vem ANTES de tudo, mesmo que repita os ingredientes: tudo que precisa comprar, sem repetir, sem água: item | quantidade para comprar (embalagem de mercado) | seção. Seções: ${secoesMercado}.
 9. Campos *_min: minutos em número (ou faixa "480 a 720"). tempo_espera_min = molho, descanso, fermentação, geladeira.
 10. categoria (uma): ${CATEGORIAS.join('; ')}.
 11. refeicao (uma ou mais): ${REFEICOES.join(', ')}.
 12. dieta: só as que TODOS os ingredientes permitem: ${DIETAS.join(', ')}. alergenos: os presentes: ${ALERGENOS.join(', ')}.
-13. NUTRICAO: só se a fonte informar, por porção (${NUTRIENTES.join(', ')}). Senão, apague a seção.
+13. NUTRICAO: só se a fonte informar, por porção: - nutriente | valor. Senão, não inclua.
 14. visual: uma frase do que se vê no prato pronto (ingredientes, cortes, cores), sem louça nem cenário.
 15. gerado_por: ChatGPT e o modelo (ex.: ChatGPT GPT-5). Não altere usuario, gerado_em e prompt_versao.
 16. Campo sem informação: deixe vazio. Seções opcionais sem conteúdo: apague. Não invente.
-17. ILUSTRACOES: escolha até ${aj.ilustracoes} ingredientes mais visuais para desenhar a giz (sem sal, água, óleo). Uma linha cada, na ordem em que entram: ordem | ingrediente | como desenhar (ex.: meio limão com polpa aparente) | preparação:número do passo em que entra.`;
+17. ILUSTRACOES: até ${aj.ilustracoes} ingredientes mais visuais para desenhar a giz (sem sal, água, óleo), na ordem em que entram: ordem | ingrediente | como desenhar | preparação:passo.
+18. ingrediente_principal: o ingrediente que é a base do prato (ex.: sardinha).
+19. SUBSTITUICOES: SÓ trocas que estejam nas fontes abaixo (consulte os links) ou sugeridas pela própria receita (fonte RECEITA). Sem fonte, não escreva. para = principal (até 2 alternativas ao ingrediente principal), geral, vegetariano, vegano ou sem glúten. fonte = código.
+FONTES DE SUBSTITUIÇÃO
+${blocoDeFontes()}`;
 
 const blocoDeAjustes = (aj) => (aj.frases.length
   ? `\nAJUSTES DO USUÁRIO (aplique; têm prioridade sobre a fidelidade ao original)\n${aj.frases.map((f) => `- ${f}`).join('\n')}\n` : '');
@@ -70,13 +75,11 @@ fonte_publicado_em:
 fonte_video:
 idioma_original:
 visual:
+ingrediente_principal:
 foto_original: ${fotoOriginal}
 
 ## COMPRAS
 - item | quantidade para comprar | seção
-
-## NUTRICAO
-- nutriente | valor com unidade
 
 ## PREPARACAO: nome
 ### NOTA
@@ -92,13 +95,13 @@ frase
 - 1 | ingrediente | como desenhar | preparação:passo
 
 ## SUBSTITUICOES
-- ingrediente | substituto | observação
+- ingrediente | substituto com quantidade | observação | para | fonte
 ## VARIACOES
-- variação
+-
 ## SERVIR
-- como servir, acompanhamentos
+-
 ## CONSERVACAO
-- geladeira, congelador, validade
+-
 
 #FIM
 ${CERCA}`;
@@ -122,7 +125,7 @@ LINK: ${url}
 REGRAS
 1. Leia a receita inteira no link. Se não conseguir acessar, não invente: peça que eu cole o texto da página.
 ${regrasComuns(aj, SECOES_MERCADO.join(', '))}
-18. foto_original: o endereço direto (https://…jpg/webp/png) da foto principal do prato na página, se houver (ex.: a imagem de destaque). Senão, vazio.
+20. foto_original: link direto da foto principal do prato na página, se houver.
 ${blocoDeAjustes(aj)}
 Responda SOMENTE com um único bloco de código, sem texto antes ou depois, nesta estrutura:
 
@@ -157,7 +160,7 @@ ${corpo}
 REGRAS
 1. Use só o que eu escrevi e o que eu responder. Pode corrigir a escrita e dividir passos longos.
 ${regrasComuns(aj, SECOES_MERCADO.join(', '))}
-18. fonte_site e fonte_url: deixe como estão. fonte_autor: ${usuario}.
+20. fonte_site e fonte_url: deixe como estão. fonte_autor: ${usuario}.
 ${blocoDeAjustes(aj)}
 Quando for converter, responda SOMENTE com um único bloco de código, sem texto antes ou depois, nesta estrutura:
 

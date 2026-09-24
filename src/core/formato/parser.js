@@ -7,6 +7,7 @@
 // campos, marcadores - * • –, listas "1." e "1)".
 
 import { lerQuantidade, exibirQuantidade } from './quantidade.js';
+import { fonteDaSubstituicao, normalizarPara } from '../import/fontes.js';
 import { slugify } from './slug.js';
 import { CATEGORIAS, REFEICOES, DIFICULDADES, CUSTOS, DIETAS, ALERGENOS, SECOES_MERCADO, NUTRIENTES } from '../import/listas.js';
 
@@ -24,7 +25,7 @@ const CAMPOS = {
   dificuldade: 'texto', custo: 'texto', equipamentos: 'lista', temperatura_forno: 'texto',
   dieta: 'lista', alergenos: 'lista',
   fonte_site: 'texto', fonte_autor: 'texto', fonte_url: 'texto', fonte_publicado_em: 'texto', fonte_video: 'texto',
-  idioma_original: 'texto', visual: 'longo', foto_original: 'texto',
+  idioma_original: 'texto', visual: 'longo', foto_original: 'texto', ingrediente_principal: 'texto',
 };
 
 // Seções gerais (fecham a preparação aberta).
@@ -181,7 +182,12 @@ export function interpretarReceita(texto, opcoes = {}) {
       if (nome === 'compras') geral.compras.push(lerCompra(conteudo));
       else if (nome === 'nutricao') { const [n = '', v = ''] = partir(conteudo); geral.nutricao.push({ nome: n.toLowerCase(), valor: v }); }
       else if (nome === 'ilustracoes') geral.ilustracoes.push(lerIlustracao(conteudo, geral.ilustracoes.length + 1));
-      else if (nome === 'substituicoes') { const [o = '', s = '', ob = ''] = partir(conteudo); geral.substituicoes.push({ original: o, substituto: s, obs: ob }); }
+      else if (nome === 'substituicoes') {
+        const [o = '', s = '', ob = '', para = '', fonte = ''] = partir(conteudo);
+        const f = fonteDaSubstituicao(fonte);
+        geral.substituicoes.push({ original: o, substituto: s, obs: ob, para: normalizarPara(para), fonte: f?.codigo ?? '' });
+        if (!f) avisos.push(`Substituição sem fonte confiável (não será mostrada): ${o} → ${s}.`);
+      }
       else geral[nome].push(conteudo);
       continue;
     }
@@ -275,6 +281,7 @@ export function interpretarReceita(texto, opcoes = {}) {
     },
     idiomaOriginal: campos.idioma_original ?? '',
     visual: campos.visual ?? '',
+    ingredientePrincipal: (campos.ingrediente_principal ?? '').trim(),
     fotoOriginal: /^https?:\/\//i.test(campos.foto_original ?? '') ? campos.foto_original.trim() : '',
     // conteúdo
     nota: geral.nota.join(' '),

@@ -69,6 +69,19 @@ test('prompt de texto livre: revisa, pergunta e usa o mesmo formato', () => {
   assert.throws(() => montarPromptTextoLivre('curto'));
 });
 
+test('substituições: só com fonte confiável, citada e com links no prompt', async () => {
+  const { FONTES_SUBSTITUICAO } = await import('../src/core/import/fontes.js');
+  const p = montarPromptReceita('https://ex.com/r', { usuario: 'A', agora: AGORA });
+  for (const f of Object.values(FONTES_SUBSTITUICAO)) assert.ok(p.includes(f.url), f.url);
+  assert.match(p, /SÓ trocas que estejam nas fontes/);
+  assert.match(montarPromptTextoLivre('Bolo: 3 ovos, 2 xícaras de farinha, asse 40 minutos.', { usuario: 'A' }), /FONTES DE SUBSTITUIÇÃO/);
+  const t = '#PRATORIA v1\ntitulo: X\n## PREPARACAO: A\n### PASSOS\n1. a\n## SUBSTITUICOES\n- manteiga | 1/3 xícara de óleo para 1/2 xícara | | vegano | VEGANUARY\n- ovo | purê de maçã | | vegano | blog qualquer\n- limão | vinagre | | geral | https://www.ndsu.edu/agriculture/extension/publications/ingredient-substitutions\n#FIM';
+  const { receita, avisos } = interpretarReceita(t);
+  assert.deepEqual(receita.substituicoes.map((s) => [s.para, s.fonte]), [['vegano', 'VEGANUARY'], ['vegano', ''], ['geral', 'NDSU']]);
+  assert.ok(avisos.some((a) => /sem fonte confiável/.test(a)));
+  assert.ok(serializarReceita(receita).includes('- manteiga | 1/3 xícara de óleo para 1/2 xícara |  | vegano | VEGANUARY'));
+});
+
 test('prompt de link: compras primeiro e foto_original', () => {
   const p = montarPromptReceita('https://ex.com/r', { usuario: 'A', agora: AGORA });
   const m = p.split('```')[1];
@@ -124,7 +137,8 @@ test('ajustes pré-prontos entram no prompt e no campo ajustes', async () => {
   assert.match(p, /até 12 ingredientes/);
   const { href } = acoesDoPrompt(p)[0];
   console.log('link ChatGPT com TODOS os ajustes:', href.length, 'caracteres');
-  assert.ok(href.length < 9000);
+  // com TODOS os ajustes o link passa do limite: o botão copia o pedido para colar (acoesDoPrompt().longo)
+  assert.ok(href.length < 10000);
   // o modelo com ajustes continua legível pelo parser
   const { avisos } = interpretarReceita(p.split('```')[1]);
   assert.ok(!avisos.some((a) => /desconhecido/.test(a)), avisos.join(' | '));

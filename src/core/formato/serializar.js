@@ -32,7 +32,7 @@ export function serializarReceita(r, op = {}) {
   campo('dieta', (r.dieta ?? []).join(', ')); campo('alergenos', (r.alergenos ?? []).join(', '));
   campo('fonte_site', r.fonte?.site); campo('fonte_autor', r.fonte?.autor); campo('fonte_url', r.fonte?.url || SEM_LINK);
   campo('fonte_publicado_em', r.fonte?.publicadoEm); campo('fonte_video', r.fonte?.video);
-  campo('idioma_original', r.idiomaOriginal); campo('visual', r.visual); campo('foto_original', r.fotoOriginal);
+  campo('idioma_original', r.idiomaOriginal); campo('visual', r.visual); campo('foto_original', r.fotoOriginal); campo('ingrediente_principal', r.ingredientePrincipal);
 
   const lista = (titulo, itens, fmt = (x) => `- ${x}`) => { if (itens?.length) L.push('', `## ${titulo}`, ...itens.map(fmt)); };
 
@@ -47,7 +47,7 @@ export function serializarReceita(r, op = {}) {
     L.push('### PASSOS', ...p.passos.map((s, n) => `${n + 1}. ${s}`));
     if (p.dicas?.length) L.push('### DICAS', ...p.dicas.map((d) => `- ${d}`));
   }
-  lista('SUBSTITUICOES', r.substituicoes, (s) => `- ${s.original} | ${s.substituto} | ${s.obs ?? ''}`.replace(/[\s|]+$/, ''));
+  lista('SUBSTITUICOES', r.substituicoes, (s) => `- ${s.original} | ${s.substituto} | ${s.obs ?? ''} | ${s.para ?? ''} | ${s.fonte ?? ''}`.replace(/[\s|]+$/, ''));
   lista('ILUSTRACOES', r.ilustracoes, (i) => `- ${i.ordem} | ${i.ingrediente} | ${i.desenho ?? ''} | ${i.onde ? `${i.onde.preparacao}:${i.onde.passo}` : ''}`.replace(/[\s|]+$/, ''));
   lista('VARIACOES', r.variacoes);
   lista('SERVIR', r.servir);

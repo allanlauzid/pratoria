@@ -21,7 +21,8 @@
       <li><span class="ic"><Icone nome="livro" /></span><span>Cozinhe <strong>passo a passo</strong>, com a tela ligada e cronômetros.</span></li>
       <li><span class="ic"><Icone nome="check" /></span><span>Funciona <strong>sem internet e sem conta</strong>. Tudo fica neste aparelho.</span></li>
     </ul>
-    <label class="campo"><span>Como você quer aparecer nas receitas? <small>(opcional)</small></span>
+    <label class="campo"><span>Seu nome <small>(opcional)</small></span>
+      <small class="ajuda">Aparece como autor das receitas que você cria ou compartilha. Ex.: “Receita do caderno da Ana”.</small>
       <input class="entrada" bind:value={nome} autocomplete="given-name" placeholder="Seu nome" enterkeyhint="go" onkeydown={(e) => e.key === 'Enter' && comecar()} /></label>
     <button class="botao primario bloco" onclick={comecar}>Começar</button>
     <p class="credito">Já tem uma receita de exemplo no caderno para você explorar.</p>
@@ -36,5 +37,6 @@
   li { display: grid; grid-template-columns: 40px 1fr; gap: .7rem; align-items: center; }
   .ic { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: var(--papel); color: var(--terracota-forte); }
   .campo small { font-weight: 400; }
+  .ajuda { display: block; color: var(--tinta-suave); font-size: .82rem; margin-top: -.15rem; }
   .credito { margin: 0; text-align: center; }
 </style>

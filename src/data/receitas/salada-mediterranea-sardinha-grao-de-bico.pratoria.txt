@@ -25,6 +25,7 @@ fonte_site: OliveTomato
 fonte_autor: Elena Paravantes
 fonte_url: https://www.olivetomato.com/5-minute-mediterranean-salad-with-sardines-and-chickpeas/
 idioma_original: inglês
+ingrediente_principal: sardinha em conserva no azeite
 visual: Filés de sardinha inteiros sobre grão-de-bico, tomate em pedaços, cubos de pepino, cebola roxa em fatias finas, azeitonas Kalamata, alcaparras e bastante salsa fresca, com brilho de azeite.
 
 ## COMPRAS
@@ -97,8 +98,12 @@ No preparo, ela usa exatamente esses itens: os seis primeiros são misturados, d
 - 9 | salsa | ramo de salsa fresca | Salada:5
 
 ## SUBSTITUICOES
-- grão-de-bico seco | grão-de-bico em conserva | escorra e lave; pule a primeira preparação
-- sardinha em conserva no azeite | atum em conserva no azeite |
+- sardinha em conserva no azeite | chicharro em conserva, na mesma quantidade | peixe oleoso, sabor forte e textura parecida | principal | MSC2
+- sardinha em conserva no azeite | 1 xícara de lentilha cozida no lugar de 100 g | mesma quantidade de proteína | principal | MYPLATE
+- sardinha em conserva no azeite | 1 xícara de grão-de-bico ou feijão-branco cozido no lugar de 100 g | mesma quantidade de proteína | vegetariano | MYPLATE
+- sardinha em conserva no azeite | 1 xícara de grão-de-bico ou feijão-branco cozido no lugar de 100 g | mesma quantidade de proteína | vegano | MYPLATE
+- suco de limão fresco | ½ colher de chá de vinagre para cada colher de chá de suco | acidez parecida | geral | NDSU
+- salsa fresca | 1 colher de chá de salsa seca para cada colher de sopa de fresca | use menos, o sabor é mais concentrado | geral | NDSU
 
 ## SERVIR
 - Sozinha, como refeição leve, ou com pão tostado.

@@ -4,6 +4,7 @@
   import ImagemReceita from '../componentes/ImagemReceita.svelte';
   import Prateleira from '../componentes/Prateleira.svelte';
   import PassoTexto from '../componentes/PassoTexto.svelte';
+  import { FONTES_SUBSTITUICAO } from '../core/import/fontes.js';
   import CartaoCronometro from '../componentes/CartaoCronometro.svelte';
   import { cronometrosDosItens } from '../core/tempos.js';
   import { creditoCurto } from '../core/formato/credito.js';
@@ -124,7 +125,7 @@
     <div class="pag-corpo rola" data-rola>
       {#if r.servir.length}<p class="pag-secao">Como servir</p><ul class="pag-lista">{#each r.servir as s}<li>{s}</li>{/each}</ul>{/if}
       {#if r.conservacao.length}<p class="pag-secao">Conservação</p><ul class="pag-lista">{#each r.conservacao as s}<li>{s}</li>{/each}</ul>{/if}
-      {#if r.substituicoes.length}<p class="pag-secao">Substituições</p><ul class="pag-lista">{#each r.substituicoes as s}<li>{s.original} → {s.substituto}</li>{/each}</ul>{/if}
+      {#if r.substituicoes.some((s) => s.fonte)}<p class="pag-secao">Substituições</p><ul class="pag-lista">{#each r.substituicoes.filter((s) => s.fonte) as s}<li>{s.original} → {s.substituto}{#if s.fonte !== 'RECEITA'}<small class="pag-fonte"> · fonte: {FONTES_SUBSTITUICAO[s.fonte]?.curto}</small>{/if}</li>{/each}</ul>{/if}
     </div>
     <span class="pag-numero">{num(pg.numero)}</span>
   </div>

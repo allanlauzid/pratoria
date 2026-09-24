@@ -22,7 +22,7 @@ export function blocosDaReceita(r) {
     ];
     b.push({ tipo: 'preparo', chave: `prep:${i}`, rotulo: `${p.nome} · Preparo`, prep: i, itens });
   });
-  if (r.substituicoes?.length || r.servir?.length || r.conservacao?.length) b.push({ tipo: 'extras', chave: 'extras', rotulo: 'Para servir' });
+  if (r.substituicoes?.some((s) => s.fonte) || r.servir?.length || r.conservacao?.length) b.push({ tipo: 'extras', chave: 'extras', rotulo: 'Para servir' });
   b.push({ tipo: 'final', chave: 'final', rotulo: 'Receita concluída' });
   return b;
 }

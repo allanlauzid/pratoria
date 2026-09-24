@@ -26,8 +26,10 @@ test('receita-piloto é lida sem erros nem avisos', () => {
   assert.deepEqual(receita.tempos.espera, { texto: '480 a 720', min: 480, max: 720 });
   assert.deepEqual(receita.refeicao, ['almoço', 'jantar']);
   assert.deepEqual(receita.alergenos, ['peixe']);
-  assert.equal(receita.substituicoes.length, 2);
-  assert.equal(receita.substituicoes[1].obs, '');
+  assert.equal(receita.substituicoes.length, 6);
+  assert.ok(receita.substituicoes.every((x) => x.fonte), 'toda substituição da piloto tem fonte');
+  assert.deepEqual(receita.substituicoes.filter((x) => x.para === 'principal').map((x) => x.fonte), ['MSC2', 'MYPLATE']);
+  assert.equal(receita.ingredientePrincipal, 'sardinha em conserva no azeite');
   assert.equal(receita.servir.length, 1);
   assert.equal(receita.fonte.autor, 'Elena Paravantes');
   assert.equal(receita.tituloOriginal, '5 Minute Mediterranean Salad with Sardines and Chickpeas');
